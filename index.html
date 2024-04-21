@@ -4,14 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Ordering App</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #555;
+            font-size: 18px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .hero-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 40px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Menu</h1>
-    <div id="menu"></div>
-    <h2>Your Order</h2>
-    <div id="order"></div>
-    <button onclick="submitOrder()">Place Order</button>
-    <script src="script.js"></script>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to our Restaurant</h1>
+            <p>Order delicious meals online and enjoy!</p>
+            <a href="/menu" class="btn">Start Ordering</a>
+        </div>
+        <img src="https://via.placeholder.com/1200x400" alt="Restaurant" class="hero-image">
+        <div class="about">
+            <h2>About Us</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec dui justo. Integer eu magna non turpis ultricies tempus. Duis aliquam risus et fringilla tincidunt.</p>
+        </div>
+    </div>
 </body>
 </html>
