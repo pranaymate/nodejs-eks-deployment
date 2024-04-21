@@ -1,19 +1,41 @@
-FROM node:18
+#FROM node:18
 
 # Create app directory
-WORKDIR /usr/src/app
+#WORKDIR /usr/src/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
+#COPY package*.json ./
 
-RUN npm install
+#RUN npm install
 # If you are building your code for production
 # RUN npm ci --omit=dev
 
 # Bundle app source
+#COPY . .
+
+#EXPOSE 8080
+#CMD [ "node", "server.js" ]
+
+# Start from a Node.js base image
+FROM node:14-alpine
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies by copying
+# package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Bundle app source inside Docker image
 COPY . .
 
-EXPOSE 8080
-CMD [ "node", "server.js" ]
+# Expose port 3000 for the application
+EXPOSE 3000
+
+# Define the command to run the app
+CMD [ "node", "app.js" ]
