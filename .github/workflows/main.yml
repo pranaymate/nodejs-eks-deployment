@@ -43,4 +43,4 @@ jobs:
 
     - name: Deploy nodejs helm chart to EKS
       run: |
-        helm upgrade nodeapp ./node-app --install
+        helm upgrade --force nodeapp ./node-app --install
