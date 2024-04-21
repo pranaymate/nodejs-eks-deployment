@@ -1,4 +1,5 @@
-name: Build and push Docker image to ECR and deploy to EKS
+name: CI/CD Pipeline
+
 on:
   push:
     branches: [ "main" ]
@@ -17,33 +18,24 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_REGION }}  # Ensure this is set in your secrets if not hardcoding here
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push docker image to Amazon ECR
+      - name: Build, tag, and push Docker image
         env:
-          AWS_DEFAULT_REGION: us-east-1
-          AWS_REGION: us-east-1
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: pranaydevopshelm
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          if [ -z "$REGISTRY" ]; then
-            echo "ERROR: REGISTRY is not set."
-            exit 1
-          fi
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/my-repository:${IMAGE_TAG} .
+          docker push ${{ steps.login-ecr.outputs.registry }}/my-repository:${IMAGE_TAG}
 
       - name: Update kube config
-        run: aws eks update-kubeconfig --name demo  # Replace 'demo' with your cluster name
+        run: aws eks update-kubeconfig --name my-cluster-name  # Replace 'my-cluster-name' with your actual cluster name
 
       - name: Deploy nodejs helm chart to EKS
         run: |
           helm upgrade --install --force nodeapp ./node-app \
+            --set image.repository=${{ steps.login-ecr.outputs.registry }}/my-repository \
             --set image.tag=${{ github.sha }}
