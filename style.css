@@ -1,3 +1,16 @@
 body {
     font-family: Arial, sans-serif;
 }
+
+.gallery-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    .gallery-image {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}
