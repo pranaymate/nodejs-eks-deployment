@@ -1,37 +1,60 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Menu items database simulation
-const menuItems = [
-    { id: 1, name: 'Burger', price: 8.99 },
-    { id: 2, name: 'Pizza', price: 15.99 },
-    { id: 3, name: 'Salad', price: 6.99 }
-];
+// Landing page route
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
+      <head>
+        <title>Restaurant Ordering App</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+          }
+          h1 {
+            color: #333;
+          }
+          p {
+            margin-bottom: 10px;
+          }
+          .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Welcome to the Restaurant Ordering App</h1>
+        <p>Start ordering delicious meals from our menu!</p>
+        <a href="/menu" class="btn">Start Ordering</a>
+      </body>
+    </html>
+  `);
+});
 
-// Orders storage
-const orders = [];
-
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.static('public'));
-
-// Get menu items
+// Menu page route (placeholder)
 app.get('/menu', (req, res) => {
-    res.json(menuItems);
+  res.send(`
+    <html>
+      <head>
+        <title>Menu - Restaurant Ordering App</title>
+        <!-- Add any additional styling or scripts here -->
+      </head>
+      <body>
+        <h1>Menu</h1>
+        <!-- Display menu items here -->
+        <p>Placeholder for menu items...</p>
+      </body>
+    </html>
+  `);
 });
 
-// Post an order
-app.post('/order', (req, res) => {
-    const order = req.body;
-    order.id = orders.length + 1; // Simple ID assignment
-    orders.push(order);
-    res.status(201).send(order);
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
