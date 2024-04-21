@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: 908198849120.dkr.ecr.ap-south-1.amazonaws.com/pranaydevopshelm
+  repository: 992382834773.dkr.ecr.us-east-1.amazonaws.com/pranaydevopshelm
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
