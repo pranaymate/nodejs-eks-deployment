@@ -1,6 +1,5 @@
-let order = [];
-
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing window.onload functionality migrated to DOMContentLoaded
     fetch('http://localhost:3000/menu')
         .then(response => response.json())
         .then(data => {
@@ -15,33 +14,25 @@ window.onload = function() {
                 menu.appendChild(menuItem);
             });
         });
-};
 
-function updateOrderView() {
-    const orderDiv = document.getElementById('order');
-    orderDiv.innerHTML = '';
-    order.forEach(item => {
-        const orderItem = document.createElement('div');
-        orderItem.textContent = item.itemName;
-        orderDiv.appendChild(orderItem);
+    // Add gallery image click event listeners
+    document.querySelectorAll('.gallery-image').forEach(image => {
+        image.addEventListener('click', function() {
+            // Simple lightbox effect
+            const largeImage = document.createElement('img');
+            largeImage.src = this.src;
+            largeImage.style.display = 'block';
+            largeImage.style.width = '100%';
+            largeImage.style.position = 'fixed';
+            largeImage.style.top = '0';
+            largeImage.style.left = '0';
+            largeImage.style.height = '100vh';
+            largeImage.style.objectFit = 'contain';
+            largeImage.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            largeImage.onclick = function() {
+                document.body.removeChild(largeImage);
+            };
+            document.body.appendChild(largeImage);
+        });
     });
-}
-
-function submitOrder() {
-    fetch('http://localhost:3000/order', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(order)
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert('Order placed!');
-        order = [];
-        updateOrderView();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
+});
